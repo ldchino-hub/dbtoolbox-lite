@@ -17,6 +17,7 @@ use Navicat\Services\BackupService;
 use Navicat\Services\DesignerService;
 use Navicat\Services\DiffService;
 use Navicat\Services\SchemaCache;
+use Navicat\Services\TableDataExchangeService;
 use Navicat\Services\TransferService;
 use Navicat\Services\VpnService;
 use Navicat\Support\DbJobId;
@@ -655,85 +656,44 @@ final class Router
             $table = rawurldecode($m[3]);
             $format = $this->query['format'] ?? 'json';
             $driver = DriverFactory::getDriver($access['conn']);
-            $exportSortKeysRaw = $this->query['sortKeys'] ?? null;
-            $exportSortKeys = null;
-            if ($exportSortKeysRaw) {
-                $decoded = json_decode($exportSortKeysRaw, true);
-                if (is_array($decoded)) {
-                    $exportSortKeys = array_values(array_filter($decoded, fn($k) => isset($k['col'])));
-                }
-            }
-            $result = $driver->queryPaginated($db, $table, [
-                'offset' => 0,
-                'limit' => 100000,
-                'orderBy' => $this->query['orderBy'] ?? null,
-                'orderDir' => $this->query['orderDir'] ?? null,
-                'sortKeys' => $exportSortKeys,
-                'filter' => $this->query['filter'] ?? null,
+            $options = [
+                'delimiter' => $this->query['delimiter'] ?? null,
+            ];
+            (new TableDataExchangeService())->streamTableExport(
+                $driver,
+                $db,
+                $table,
+                $format,
+                $this->query,
+                array_filter($options, fn($v) => $v !== null),
+            );
+            return;
+        }
+
+        if (preg_match('#^/api/data/([^/]+)/([^/]+)/([^/]+)/import/preview$#', $this->path, $m) && $this->method === 'POST') {
+            AuthService::requireConnectionAccess($user, $m[1], 'viewer');
+            $parsed = $this->parseTableImportPayload();
+            $previewRows = array_slice($parsed['rows'], 0, 20);
+            Response::json([
+                'columns' => $parsed['columns'],
+                'rows' => $previewRows,
+                'totalRows' => count($parsed['rows']),
             ]);
+            return;
+        }
 
-            if ($format === 'csv') {
-                $header = implode(',', $result['columns']);
-                $rows = [];
-                foreach ($result['rows'] as $row) {
-                    $cells = [];
-                    foreach ($result['columns'] as $col) {
-                        $v = $row[$col] ?? '';
-                        if ($v === null) {
-                            $cells[] = '';
-                        } else {
-                            $s = (string)$v;
-                            $cells[] = (str_contains($s, ',') || str_contains($s, '"'))
-                                ? '"' . str_replace('"', '""', $s) . '"'
-                                : $s;
-                        }
-                    }
-                    $rows[] = implode(',', $cells);
-                }
-                header('Content-Type: text/csv');
-                header('Content-Disposition: attachment; filename="' . $table . '.csv"');
-                echo implode("\n", [$header, ...$rows]);
-                return;
-            }
-
-            if ($format === 'sql') {
-                $maxRows = 10000;
-                $tableEsc = str_replace('`', '``', $table);
-                $colList = implode(', ', array_map(
-                    static fn(string $c): string => '`' . str_replace('`', '``', $c) . '`',
-                    $result['columns']
-                ));
-                $lines = [];
-                $allRows = $result['rows'];
-                if (count($allRows) > $maxRows) {
-                    $lines[] = '-- Export limited to ' . $maxRows . ' of ' . count($allRows) . ' rows';
-                    $allRows = array_slice($allRows, 0, $maxRows);
-                }
-                foreach ($allRows as $row) {
-                    $vals = [];
-                    foreach ($result['columns'] as $col) {
-                        $v = $row[$col] ?? null;
-                        if ($v === null) {
-                            $vals[] = 'NULL';
-                        } elseif (is_bool($v)) {
-                            $vals[] = $v ? 'TRUE' : 'FALSE';
-                        } elseif (is_int($v) || is_float($v)) {
-                            $vals[] = (string)$v;
-                        } else {
-                            $vals[] = "'" . str_replace(["\\", "'"], ["\\\\", "''"], (string)$v) . "'";
-                        }
-                    }
-                    $lines[] = 'INSERT INTO `' . $tableEsc . '` (' . $colList . ') VALUES (' . implode(', ', $vals) . ');';
-                }
-                header('Content-Type: application/sql; charset=utf-8');
-                header('Content-Disposition: attachment; filename="' . $table . '.sql"');
-                echo implode("\n", $lines);
-                return;
-            }
-
-            header('Content-Type: application/json');
-            header('Content-Disposition: attachment; filename="' . $table . '.json"');
-            echo json_encode($result['rows'], JSON_UNESCAPED_UNICODE);
+        if (preg_match('#^/api/data/([^/]+)/([^/]+)/([^/]+)/import$#', $this->path, $m) && $this->method === 'POST') {
+            $access = AuthService::requireConnectionAccess($user, $m[1], 'editor');
+            $db = rawurldecode($m[2]);
+            $table = rawurldecode($m[3]);
+            $driver = DriverFactory::getDriver($access['conn']);
+            $parsed = $this->parseTableImportPayload();
+            $options = [
+                'truncate' => !empty($_POST['truncate']) && $_POST['truncate'] !== 'false'
+                    || !empty($this->body['truncate']),
+            ];
+            $result = (new TableDataExchangeService())->importRows($driver, $db, $table, $parsed, $options);
+            Response::json($result);
             return;
         }
 
@@ -2291,5 +2251,66 @@ final class Router
 
         Response::error('Not found', 404);
     }
+
+
+    private function fetchTableExportData(object $driver, string $db, string $table, array $query): array
+    {
+        $exportSortKeysRaw = $query['sortKeys'] ?? null;
+        $exportSortKeys = null;
+        if ($exportSortKeysRaw) {
+            $decoded = json_decode($exportSortKeysRaw, true);
+            if (is_array($decoded)) {
+                $exportSortKeys = array_values(array_filter($decoded, fn($k) => isset($k['col'])));
+            }
+        }
+        return $driver->queryPaginated($db, $table, [
+            'offset' => 0,
+            'limit' => 100000,
+            'orderBy' => $query['orderBy'] ?? null,
+            'orderDir' => $query['orderDir'] ?? null,
+            'sortKeys' => $exportSortKeys,
+            'filter' => $query['filter'] ?? null,
+        ]);
+    }
+
+    private function parseTableImportPayload(): array
+    {
+        $contentType = $_SERVER['CONTENT_TYPE'] ?? $_SERVER['HTTP_CONTENT_TYPE'] ?? '';
+        if (str_contains($contentType, 'multipart/form-data')) {
+            $format = (string)($_POST['format'] ?? 'csv');
+            $options = [
+                'delimiter' => $_POST['delimiter'] ?? null,
+                'hasHeader' => !isset($_POST['hasHeader']) || $_POST['hasHeader'] !== 'false',
+                'odbcDsn' => $_POST['odbcDsn'] ?? null,
+                'odbcUser' => $_POST['odbcUser'] ?? null,
+                'odbcPassword' => $_POST['odbcPassword'] ?? null,
+                'odbcQuery' => $_POST['odbcQuery'] ?? null,
+            ];
+            if ($format === 'odbc') {
+                return (new TableDataExchangeService())->parseImport('', $format, array_filter($options, fn($v) => $v !== null));
+            }
+            if (empty($_FILES['file'])) {
+                throw new \RuntimeException('No file uploaded');
+            }
+            $tmp = (string)($_FILES['file']['tmp_name'] ?? '');
+            $content = (string)file_get_contents($tmp);
+            return (new TableDataExchangeService())->parseImport($content, $format, array_filter($options, fn($v) => $v !== null));
+        }
+        $format = (string)($this->body['format'] ?? 'csv');
+        $options = [
+            'delimiter' => $this->body['delimiter'] ?? null,
+            'hasHeader' => !isset($this->body['hasHeader']) || $this->body['hasHeader'] !== false,
+            'odbcDsn' => $this->body['odbcDsn'] ?? null,
+            'odbcUser' => $this->body['odbcUser'] ?? null,
+            'odbcPassword' => $this->body['odbcPassword'] ?? null,
+            'odbcQuery' => $this->body['odbcQuery'] ?? null,
+        ];
+        if ($format === 'odbc') {
+            return (new TableDataExchangeService())->parseImport('', $format, array_filter($options, fn($v) => $v !== null));
+        }
+        $content = (string)($this->body['content'] ?? '');
+        return (new TableDataExchangeService())->parseImport($content, $format, array_filter($options, fn($v) => $v !== null));
+    }
+
 
 }

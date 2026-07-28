@@ -255,40 +255,22 @@ final class BridgeMySqlDriver
         return '`' . str_replace('`', '``', $name) . '`';
     }
 
-    /** @return array<string,mixed> */
-    public function getTableInfo(string $database, string $table): array
+    private function quoteLiteral(mixed $v): string
     {
-        return $this->rpc('getTableInfo', [$database, $table]);
-    }
-
-    /** @return array<string,mixed> */
-    public function execute(string $sql, ?string $database = null): array
-    {
-        return $this->rpc('execute', [$sql, $database]);
-    }
-
-    /** @return array<string,mixed> */
-    public function executeMany(string $sql, ?string $database = null): array
-    {
-        return $this->rpc('executeMany', [$sql, $database]);
-    }
-
-    /** @return array<string,mixed> */
-    public function queryPaginated(string $database, string $table, array $options): array
-    {
-        return $this->rpc('queryPaginated', [$database, $table, $options]);
-    }
-
-    /** @return list<string> */
-    public function getPrimaryKeys(string $database, string $table): array
-    {
-        return $this->rpc('getPrimaryKeys', [$database, $table]);
-    }
-
-    /** @param array<string,mixed> $data */
-    public function insertRow(string $database, string $table, array $data): void
-    {
-        $this->rpc('insertRow', [$database, $table, $data]);
+        if ($v === null) {
+            return 'NULL';
+        }
+        if (is_bool($v)) {
+            return $v ? '1' : '0';
+        }
+        if (is_int($v)) {
+            return (string)$v;
+        }
+        if (is_float($v)) {
+            return (string)$v;
+        }
+        $s = str_replace(["\\", "\0", "'"], ["\\\\", "\\0", "''"], (string)$v);
+        return "'" . $s . "'";
     }
 
     /** @param array<string,mixed> $pk @param array<string,mixed> $data */

@@ -34,7 +34,7 @@ final class ConnectionRepository
                 'metaJson' => $meta,
             ];
             if ($includePasswords) {
-                $item['password'] = \Navicat\Crypto\Crypto::decrypt((string)($row['password_enc'] ?? ''));
+                $item['password'] = Crypto::decrypt((string)($row['password_enc'] ?? ''));
             }
             $items[] = $item;
         }

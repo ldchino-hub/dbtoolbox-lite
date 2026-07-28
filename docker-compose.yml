@@ -4,7 +4,7 @@ services:
       context: .
       dockerfile: Dockerfile
     image: dbtoolbox-lite:1.0.1
-    container_name: DBToolBox-Lite
+    container_name: Navicat-Lite
     restart: unless-stopped
     env_file:
       - .env
