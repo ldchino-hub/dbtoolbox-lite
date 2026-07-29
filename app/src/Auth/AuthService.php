@@ -1,11 +1,11 @@
 <?php
 declare(strict_types=1);
 
-namespace Navicat\Auth;
+namespace DbToolBox\Auth;
 
-use Navicat\App;
-use Navicat\Util\Id;
-use Navicat\Util\Jwt;
+use DbToolBox\App;
+use DbToolBox\Util\Id;
+use DbToolBox\Util\Jwt;
 use PDO;
 
 final class AuthService
@@ -29,7 +29,7 @@ final class AuthService
     /** @return array<string,mixed>|null */
     public static function userFromRequest(): ?array
     {
-        $hdr = navicat_authorization_header();
+        $hdr = dbtoolbox_authorization_header();
         if (!preg_match('/^Bearer\s+(.+)$/i', $hdr, $m)) return null;
         try {
             return Jwt::decode(trim($m[1]));
@@ -88,7 +88,7 @@ final class AuthService
     /** @return array{conn:array<string,mixed>,role:string} */
     public static function requireConnectionAccess(array $user, string $connectionId, string $minRole = 'viewer'): array
     {
-        $conn = \Navicat\Connections\ConnectionRepository::find($connectionId);
+        $conn = \DbToolBox\Connections\ConnectionRepository::find($connectionId);
         if (!$conn) throw new \RuntimeException('Connection not found', 404);
         $role = self::connectionRole($user, $connectionId);
         if (!self::hasMinRole($role, $minRole)) throw new \RuntimeException('Insufficient permissions for this connection', 403);

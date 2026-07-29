@@ -3,7 +3,7 @@ import react from '@vitejs/plugin-react';
 import { readFileSync } from 'node:fs';
 import { resolve } from 'path';
 
-const uiRoot = resolve(__dirname, '../../../navicat-ui/src');
+const uiRoot = resolve(__dirname, '../../../dbtoolbox-ui/src');
 const frontendRoot = __dirname;
 
 function readAppVersion(): string {
@@ -16,7 +16,7 @@ function readAppVersion(): string {
 
 const appVersion = readAppVersion();
 
-/** Force a single copy of shared libs when bundling aliased navicat-ui source. */
+/** Force a single copy of shared libs when bundling aliased dbtoolbox-ui source. */
 const singleton = (pkg: string) => resolve(frontendRoot, 'node_modules', pkg);
 
 export default defineConfig(({ command, mode }) => ({
@@ -32,9 +32,9 @@ export default defineConfig(({ command, mode }) => ({
   resolve: {
     dedupe: ['react', 'react-dom', '@tanstack/react-query', '@tanstack/query-core', 'zustand'],
     alias: {
-      '@navicat-ui/styles': resolve(__dirname, '../../../navicat-ui/src/index.css'),
+      '@dbtoolbox-ui/styles': resolve(__dirname, '../../../dbtoolbox-ui/src/index.css'),
       '@': uiRoot,
-      '@navicat/ui': resolve(__dirname, '../../../navicat-ui/src/index.ts'),
+      '@dbtoolbox/ui': resolve(__dirname, '../../../dbtoolbox-ui/src/index.ts'),
       ...(command === 'build'
         ? {
             '@tanstack/react-query': singleton('@tanstack/react-query'),

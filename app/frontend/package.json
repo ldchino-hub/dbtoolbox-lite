@@ -9,7 +9,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@navicat/ui": "file:../../../navicat-ui",
+    "@dbtoolbox/ui": "file:../../../dbtoolbox-ui",
     "@monaco-editor/react": "^4.6.0",
     "@tanstack/react-query": "^5.59.0",
     "@xterm/addon-fit": "^0.10.0",

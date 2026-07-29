@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 require_once __DIR__ . '/../src/bootstrap.php';
 
-use Navicat\Connections\ConnectionRepository;
-use Navicat\Drivers\DriverFactory;
-use Navicat\Services\VpnService;
+use DbToolBox\Connections\ConnectionRepository;
+use DbToolBox\Drivers\DriverFactory;
+use DbToolBox\Services\VpnService;
 
 $connId = $argv[1] ?? '';
 if ($connId === '') {
-    $rows = \Navicat\App::db()->query(
+    $rows = \DbToolBox\App::db()->query(
         "SELECT id, name FROM connections WHERE use_vpn = 1 OR config_group LIKE '%-vpn' LIMIT 5"
     )->fetchAll(PDO::FETCH_ASSOC);
     if ($rows === []) {

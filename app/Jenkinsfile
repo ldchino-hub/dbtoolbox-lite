@@ -13,14 +13,14 @@ pipeline {
       description: 'Branch to deploy from GitHub'
     )
     string(
-      name: 'NAVICAT_UI_GIT_URL',
-      defaultValue: 'git@github.com:ldchino-hub/navicat-ui.git',
+      name: 'DBTOOLBOX_UI_GIT_URL',
+      defaultValue: 'git@github.com:ldchino-hub/dbtoolbox-ui.git',
       description: 'Shared UI repo for frontend build (empty = skip UI build, use existing public/ if any)'
     )
     booleanParam(
       name: 'BUILD_FRONTEND',
       defaultValue: false,
-      description: 'npm build before frontend/full (requires navicat-ui on GitHub)'
+      description: 'npm build before frontend/full (requires dbtoolbox-ui on GitHub)'
     )
     booleanParam(
       name: 'UPLOAD_CONFIG',
@@ -36,7 +36,7 @@ pipeline {
 
   environment {
     PATH = "/Users/luisjimenez/.local/bin:/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:${env.PATH}"
-    GIT_REPO = 'git@github.com:ldchino-hub/navicat-php-1.0.0.git'
+    GIT_REPO = 'git@github.com:ldchino-hub/dbtoolbox-php-1.0.0.git'
     FTP_CREDENTIALS_ID = 'db-ldjr-ftp-pass'
     DEPLOY_URL = 'https://db.ldjr.me'
     FTP_HOST = 'ldjr.me'
@@ -59,20 +59,20 @@ pipeline {
       }
     }
 
-    stage('Checkout navicat-ui') {
+    stage('Checkout dbtoolbox-ui') {
       when {
         expression {
           params.BUILD_FRONTEND
             && params.DEPLOY_MODE in ['frontend', 'full']
-            && params.NAVICAT_UI_GIT_URL?.trim()
+            && params.DBTOOLBOX_UI_GIT_URL?.trim()
         }
       }
       steps {
         dir("${env.WORKSPACE}/..") {
           sh '''
             set -euo pipefail
-            UI_DIR="navicat-ui"
-            REPO="''' + params.NAVICAT_UI_GIT_URL.trim().replace("'", "'\\''") + '''"
+            UI_DIR="dbtoolbox-ui"
+            REPO="''' + params.DBTOOLBOX_UI_GIT_URL.trim().replace("'", "'\\''") + '''"
             if [[ -d "$UI_DIR/.git" ]]; then
               git -C "$UI_DIR" fetch --depth 1 origin main
               git -C "$UI_DIR" checkout -f main
@@ -95,8 +95,8 @@ pipeline {
       steps {
         sh '''
           set -euo pipefail
-          if [[ ! -d ../navicat-ui/src ]]; then
-            echo "navicat-ui not found — publish navicat-ui to GitHub or clear NAVICAT_UI_GIT_URL and disable BUILD_FRONTEND"
+          if [[ ! -d ../dbtoolbox-ui/src ]]; then
+            echo "dbtoolbox-ui not found — publish dbtoolbox-ui to GitHub or clear DBTOOLBOX_UI_GIT_URL and disable BUILD_FRONTEND"
             exit 1
           fi
           npm --prefix frontend ci --silent
@@ -112,7 +112,7 @@ pipeline {
           def uploadCheck = params.UPLOAD_CHECK ? '1' : '0'
           def skipBuild = (
             !params.BUILD_FRONTEND
-            || !params.NAVICAT_UI_GIT_URL?.trim()
+            || !params.DBTOOLBOX_UI_GIT_URL?.trim()
             || !(params.DEPLOY_MODE in ['frontend', 'full'])
           ) ? '1' : '0'
 

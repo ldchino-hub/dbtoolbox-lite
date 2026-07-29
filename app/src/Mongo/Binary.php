@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Navicat\Mongo;
+namespace DbToolBox\Mongo;
 
 /** BSON binary value (subtype 0x00 generic, 0x04 UUID, etc.). */
 final class Binary implements \JsonSerializable

@@ -3,8 +3,8 @@ declare(strict_types=1);
 
 require_once dirname(__DIR__) . '/src/bootstrap.php';
 
-use Navicat\App;
-use Navicat\Auth\AuthService;
+use DbToolBox\App;
+use DbToolBox\Auth\AuthService;
 
 $config = App::config();
 $email = (string)$config['admin_email'];

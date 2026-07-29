@@ -1,10 +1,10 @@
 <?php
 declare(strict_types=1);
 
-namespace Navicat\Connections;
+namespace DbToolBox\Connections;
 
-use Navicat\App;
-use Navicat\Util\Id;
+use DbToolBox\App;
+use DbToolBox\Util\Id;
 use PDO;
 
 final class ConnectionGroupRepository
@@ -104,7 +104,7 @@ final class ConnectionGroupRepository
                 continue;
             }
             unset($meta['sidebarGroupId']);
-            App::db()->prepare('UPDATE connections SET meta_json = ?, updated_at = ' . \Navicat\Database::nowSql() . ' WHERE id = ?')
+            App::db()->prepare('UPDATE connections SET meta_json = ?, updated_at = ' . \DbToolBox\Database::nowSql() . ' WHERE id = ?')
                 ->execute([json_encode($meta), $cid]);
         }
     }

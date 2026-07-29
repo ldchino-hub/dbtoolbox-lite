@@ -5,7 +5,7 @@ Release con **observabilidad** (DB Jobs, Server Logs, Query Store) y fix de PDO 
 ## Tag
 
 ```bash
-cd /DATA/navicat-php-1.0.0
+cd /DATA/dbtoolbox-php-1.0.0
 git fetch origin && git checkout v1.2.3
 ```
 
@@ -26,9 +26,9 @@ Health: `curl -s http://HOST:8788/api/health` → `"version":"1.2.3"`.
 ## Deploy NAS (Docker)
 
 ```bash
-cd /DATA/navicat-php-1.0.0
+cd /DATA/dbtoolbox-php-1.0.0
 git checkout v1.2.3
-cd infra && docker compose build navicat-php && docker compose up -d navicat-php
+cd infra && docker compose build dbtoolbox-php && docker compose up -d dbtoolbox-php
 ```
 
 ## Deploy FTP

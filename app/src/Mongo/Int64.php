@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Navicat\Mongo;
+namespace DbToolBox\Mongo;
 
 /** Explicit BSON int64 / timestamp wrapper (PHP int is 64-bit on this host). */
 final class Int64 implements \JsonSerializable

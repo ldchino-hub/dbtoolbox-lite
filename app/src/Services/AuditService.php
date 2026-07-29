@@ -1,10 +1,10 @@
 <?php
 declare(strict_types=1);
 
-namespace Navicat\Services;
+namespace DbToolBox\Services;
 
-use Navicat\App;
-use Navicat\Util\Id;
+use DbToolBox\App;
+use DbToolBox\Util\Id;
 
 final class AuditService
 {
@@ -13,7 +13,7 @@ final class AuditService
         try {
             App::db()->prepare(
                 'INSERT INTO audit_events (id, user_id, action, target, payload_json, created_at)
-                 VALUES (?, ?, ?, ?, ?, ' . \Navicat\Database::nowSql() . ')'
+                 VALUES (?, ?, ?, ?, ?, ' . \DbToolBox\Database::nowSql() . ')'
             )->execute([
                 Id::cuid(),
                 $userId,

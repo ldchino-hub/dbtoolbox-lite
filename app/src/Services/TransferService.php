@@ -1,10 +1,10 @@
 <?php
 declare(strict_types=1);
 
-namespace Navicat\Services;
+namespace DbToolBox\Services;
 
-use Navicat\Drivers\DriverFactory;
-use Navicat\Drivers\MongoDriver;
+use DbToolBox\Drivers\DriverFactory;
+use DbToolBox\Drivers\MongoDriver;
 
 final class TransferService
 {

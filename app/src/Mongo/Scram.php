@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Navicat\Mongo;
+namespace DbToolBox\Mongo;
 
 /**
  * SCRAM authentication (RFC 5802 / 7677) over the MongoDB wire protocol.

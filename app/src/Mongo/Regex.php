@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Navicat\Mongo;
+namespace DbToolBox\Mongo;
 
 /** BSON regular expression. */
 final class Regex implements \JsonSerializable

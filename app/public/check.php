@@ -45,7 +45,7 @@ $sqliteOk = false;
 if (is_file($root . '/src/bootstrap.php')) {
     try {
         require_once $root . '/src/bootstrap.php';
-        Navicat\App::db()->query('SELECT 1');
+        \DbToolBox\App::db()->query('SELECT 1');
         $bootstrapOk = true;
         $sqliteOk = true;
     } catch (Throwable $e) {

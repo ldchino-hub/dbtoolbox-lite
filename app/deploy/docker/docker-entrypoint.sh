@@ -23,8 +23,8 @@ return [
     'vpn_enabled' => false,
     'vpn_config' => '/etc/openvpn/client/pci.ovpn',
     'vpn_auth' => '/etc/openvpn/client/pci.auth',
-    'vpn_pidfile' => '/var/run/openvpn-navicat.pid',
-    'vpn_log' => '/var/log/openvpn-navicat.log',
+    'vpn_pidfile' => '/var/run/openvpn-dbtoolbox.pid',
+    'vpn_log' => '/var/log/openvpn-dbtoolbox.log',
 ];
 PHP
   chown www-data:www-data "$CONFIG"

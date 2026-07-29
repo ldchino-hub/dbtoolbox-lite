@@ -14,8 +14,8 @@ Guía de una página para instalar **DB Tool Box Lite** en hosting compartido (G
 
 En GitHub → **Releases** → descarga `dbtoolbox-lite-X.Y.Z.zip`.
 
-O desde la rama `main`: [navicat-lite/archive/refs/heads/main.zip](https://github.com/ldchino-hub/navicat-lite/archive/refs/heads/main.zip)  
-(en ese caso usa la carpeta `navicat-lite-main/app/`).
+O desde la rama `main`: [dbtoolbox-lite/archive/refs/heads/main.zip](https://github.com/ldchino-hub/dbtoolbox-lite/archive/refs/heads/main.zip)  
+(en ese caso usa la carpeta `dbtoolbox-lite-main/app/`).
 
 ## 2. Subir por FTP
 
@@ -141,5 +141,5 @@ location ~ \.php$ {
 
 ## Soporte
 
-- Repo: [github.com/ldchino-hub/navicat-lite](https://github.com/ldchino-hub/navicat-lite)
+- Repo: [github.com/ldchino-hub/dbtoolbox-lite](https://github.com/ldchino-hub/dbtoolbox-lite)
 - Demo: [db.ldjr.me](https://db.ldjr.me)

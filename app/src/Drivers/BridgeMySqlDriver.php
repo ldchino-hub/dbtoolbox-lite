@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Navicat\Drivers;
+namespace DbToolBox\Drivers;
 
 /** Proxies MySQL driver calls through db.ldjr.me when NAS IP is blocked remotely. */
 final class BridgeMySqlDriver

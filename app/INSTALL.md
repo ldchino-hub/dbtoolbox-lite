@@ -14,8 +14,8 @@ Instalación en un servidor Apache/Nginx + PHP 8.1+.
 
 ```bash
 # 1. Descomprimir (ejemplo)
-unzip navicat-php-1.0.0.zip -d /var/www/
-cd /var/www/navicat-php-1.0.0
+unzip dbtoolbox-php-1.0.0.zip -d /var/www/
+cd /var/www/dbtoolbox-php-1.0.0
 
 # 2. Configuración
 cp config/config.example.php config/config.php
@@ -41,7 +41,7 @@ php scripts/import-pgservice.php
 Apunta el dominio a la carpeta **`public/`** (obligatorio).
 
 ```
-/var/www/navicat-php-1.0.0/public   ← DocumentRoot
+/var/www/dbtoolbox-php-1.0.0/public   ← DocumentRoot
 ```
 
 No expongas `config/`, `src/` ni `storage/` directamente.
@@ -54,7 +54,7 @@ Abre `https://tu-dominio/check.php` — debe marcar ✓ en PHP, extensiones y bu
 ## Nginx (ejemplo)
 
 ```nginx
-root /var/www/navicat-php-1.0.0/public;
+root /var/www/dbtoolbox-php-1.0.0/public;
 index index.php index.html;
 
 location /api/ {

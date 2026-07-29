@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Navicat\Mongo;
+namespace DbToolBox\Mongo;
 
 /**
  * Minimal but complete BSON codec in pure PHP (no ext-mongodb).

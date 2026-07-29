@@ -1,5 +1,5 @@
 {
-  "name": "navicat/php-edition",
+  "name": "dbtoolbox/php-edition",
   "description": "DB Tool Box — PHP hosting edition",
   "type": "project",
   "require": {
@@ -7,7 +7,7 @@
   },
   "autoload": {
     "psr-4": {
-      "Navicat\\": "src/"
+      "DbToolBox\\": "src/"
     }
   }
 }

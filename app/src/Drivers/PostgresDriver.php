@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Navicat\Drivers;
+namespace DbToolBox\Drivers;
 
 use PDO;
 use PDOStatement;
@@ -1032,7 +1032,7 @@ final class PostgresDriver
             foreach ($rows as $r) {
                 $jobId = (int)($r['jobid'] ?? 0);
                 $jobs[] = [
-                    'jobId' => \Navicat\Support\DbJobId::encodePg($jobId),
+                    'jobId' => \DbToolBox\Support\DbJobId::encodePg($jobId),
                     'name' => (string)($r['jobname'] ?? ''),
                     'database' => (string)($r['database'] ?? ''),
                     'engine' => 'postgres',

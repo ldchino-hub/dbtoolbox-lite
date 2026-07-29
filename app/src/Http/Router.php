@@ -1,27 +1,27 @@
 <?php
 declare(strict_types=1);
 
-namespace Navicat\Http;
+namespace DbToolBox\Http;
 
-use Navicat\App;
-use Navicat\Auth\AuthService;
-use Navicat\Connections\ConnectionGroupRepository;
-use Navicat\Connections\ConnectionRepository;
-use Navicat\Drivers\DriverFactory;
-use Navicat\Drivers\MongoDriver;
-use Navicat\Drivers\MySqlDriver;
-use Navicat\Drivers\PostgresDriver;
-use Navicat\Response;
-use Navicat\Services\AuditService;
-use Navicat\Services\BackupService;
-use Navicat\Services\DesignerService;
-use Navicat\Services\DiffService;
-use Navicat\Services\SchemaCache;
-use Navicat\Services\TableDataExchangeService;
-use Navicat\Services\TransferService;
-use Navicat\Services\VpnService;
-use Navicat\Support\DbJobId;
-use Navicat\Util\Id;
+use DbToolBox\App;
+use DbToolBox\Auth\AuthService;
+use DbToolBox\Connections\ConnectionGroupRepository;
+use DbToolBox\Connections\ConnectionRepository;
+use DbToolBox\Drivers\DriverFactory;
+use DbToolBox\Drivers\MongoDriver;
+use DbToolBox\Drivers\MySqlDriver;
+use DbToolBox\Drivers\PostgresDriver;
+use DbToolBox\Response;
+use DbToolBox\Services\AuditService;
+use DbToolBox\Services\BackupService;
+use DbToolBox\Services\DesignerService;
+use DbToolBox\Services\DiffService;
+use DbToolBox\Services\SchemaCache;
+use DbToolBox\Services\TableDataExchangeService;
+use DbToolBox\Services\TransferService;
+use DbToolBox\Services\VpnService;
+use DbToolBox\Support\DbJobId;
+use DbToolBox\Util\Id;
 use PDO;
 
 final class Router
@@ -38,7 +38,7 @@ final class Router
 
     public function __construct()
     {
-        $this->path = navicat_request_path();
+        $this->path = dbtoolbox_request_path();
         $this->method = strtoupper($_SERVER['REQUEST_METHOD'] ?? 'GET');
         $this->query = is_array($_GET) ? $_GET : [];
         if ($this->query === [] && !empty($_SERVER['REQUEST_URI'])) {
@@ -269,7 +269,7 @@ final class Router
             AuthService::requireAdmin();
             $inc = ($_GET['includePasswords'] ?? '') === '1' || ($_GET['includePasswords'] ?? '') === 'true';
             $payload  = ConnectionRepository::exportPublic($inc);
-            $filename = $inc ? 'connections-with-passwords.json' : 'navicat-connections.json';
+            $filename = $inc ? 'connections-with-passwords.json' : 'dbtoolbox-connections.json';
             header('Content-Type: application/json; charset=utf-8');
             header('Content-Disposition: attachment; filename="' . $filename . '"');
             echo json_encode($payload, JSON_UNESCAPED_UNICODE | JSON_INVALID_UTF8_SUBSTITUTE);
@@ -1837,13 +1837,13 @@ final class Router
             $size = is_file($filePath) ? filesize($filePath) : 0;
             $sha256 = is_file($filePath) ? hash_file('sha256', $filePath) : null;
             App::db()->prepare(
-                'UPDATE backups SET status = \'completed\', size_bytes = ?, sha256 = ?, finished_at = ' . \Navicat\Database::nowSql() . ' WHERE id = ?'
+                'UPDATE backups SET status = \'completed\', size_bytes = ?, sha256 = ?, finished_at = ' . \DbToolBox\Database::nowSql() . ' WHERE id = ?'
             )->execute([$size, $sha256, $backupId]);
             AuditService::log($userId, 'backup.run', $conn['name'] ?? '', ['database' => $database, 'filePath' => basename($filePath)]);
             Response::sse(['type' => 'done', 'message' => $filePath]);
         } catch (\Throwable $e) {
             App::db()->prepare(
-                'UPDATE backups SET status = \'failed\', error = ?, finished_at = ' . \Navicat\Database::nowSql() . ' WHERE id = ?'
+                'UPDATE backups SET status = \'failed\', error = ?, finished_at = ' . \DbToolBox\Database::nowSql() . ' WHERE id = ?'
             )->execute([$e->getMessage(), $backupId]);
             throw $e;
         }
@@ -1946,7 +1946,7 @@ final class Router
                 $fields[] = 'sql_text = ?';
                 $values[] = $sql;
             }
-            $fields[] = 'updated_at = ' . \Navicat\Database::nowSql();
+            $fields[] = 'updated_at = ' . \DbToolBox\Database::nowSql();
             $values[] = $paramId;
             App::db()->prepare('UPDATE saved_queries SET ' . implode(', ', $fields) . ' WHERE id = ?')->execute($values);
 

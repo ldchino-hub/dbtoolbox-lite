@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Navicat\Support;
+namespace DbToolBox\Support;
 
 use PDO;
 
@@ -12,7 +12,7 @@ final class PdoMysqlOptions
 
     public static function connectTimeoutSeconds(): int
     {
-        $env = getenv('NAVICAT_PDO_CONNECT_TIMEOUT');
+        $env = getenv('DBTOOLBOX_PDO_CONNECT_TIMEOUT');
         if ($env !== false && is_numeric($env)) {
             return max(1, (int)$env);
         }

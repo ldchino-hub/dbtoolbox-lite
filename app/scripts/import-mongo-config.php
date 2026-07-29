@@ -3,8 +3,8 @@ declare(strict_types=1);
 
 require_once dirname(__DIR__) . '/src/bootstrap.php';
 
-use Navicat\App;
-use Navicat\Connections\ConnectionRepository;
+use DbToolBox\App;
+use DbToolBox\Connections\ConnectionRepository;
 
 /**
  * Import MongoDB / Amazon DocumentDB connections from ~/.mongo_config.json.

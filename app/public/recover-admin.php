@@ -30,8 +30,8 @@ try {
     exit;
 }
 
-use Navicat\App;
-use Navicat\Auth\AuthService;
+use DbToolBox\App;
+use DbToolBox\Auth\AuthService;
 
 $config = App::config();
 $email = (string)($config['admin_email'] ?? '');

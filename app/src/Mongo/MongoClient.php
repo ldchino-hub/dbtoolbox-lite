@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Navicat\Mongo;
+namespace DbToolBox\Mongo;
 
 /**
  * Pure-PHP MongoDB / Amazon DocumentDB client.
@@ -38,7 +38,7 @@ final class MongoClient
             'caFile' => null,
             'tlsAllowInvalid' => false,
             'authMechanism' => 'auto',
-            'appName' => 'navicat-php',
+            'appName' => 'dbtoolbox-php',
             'timeout' => 10,
         ];
     }
@@ -93,7 +93,7 @@ final class MongoClient
             'hello' => 1,
             'client' => [
                 'application' => ['name' => (string)$this->opt['appName']],
-                'driver' => ['name' => 'navicat-php-pure', 'version' => '1.0'],
+                'driver' => ['name' => 'dbtoolbox-php-pure', 'version' => '1.0'],
                 'os' => ['type' => PHP_OS_FAMILY],
             ],
         ]);

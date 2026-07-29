@@ -1,24 +1,24 @@
 services:
-  navicat-php:
+  dbtoolbox-php:
     build:
       context: ../../..
-      dockerfile: navicat-php-1.0.0/deploy/docker/Dockerfile
-    image: navicat-php:1.0.0
-    container_name: navicat-php
+      dockerfile: dbtoolbox-php-1.0.0/deploy/docker/Dockerfile
+    image: dbtoolbox-php:1.0.0
+    container_name: dbtoolbox-php
     restart: unless-stopped
     env_file:
       - .env
     volumes:
-      - navicat-php-storage:/var/www/html/storage
+      - dbtoolbox-php-storage:/var/www/html/storage
     ports:
-      - "${NAVICAT_PHP_PORT:-8788}:80"
+      - "${DBTOOLBOX_PHP_PORT:-8788}:80"
     networks:
-      - navicat-net
+      - dbtoolbox-net
 
 volumes:
-  navicat-php-storage:
+  dbtoolbox-php-storage:
 
 networks:
-  navicat-net:
+  dbtoolbox-net:
     external: true
-    name: navicat-net
+    name: dbtoolbox-net

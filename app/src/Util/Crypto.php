@@ -1,9 +1,9 @@
 <?php
 declare(strict_types=1);
 
-namespace Navicat\Util;
+namespace DbToolBox\Util;
 
-use Navicat\App;
+use DbToolBox\App;
 
 final class Crypto
 {

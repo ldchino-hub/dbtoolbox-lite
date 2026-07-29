@@ -23,7 +23,7 @@ PHP hosting edition of **DB Tool Box** (Apache/Nginx + PHP 8.1+). Independent fr
 ## Instalación rápida
 
 ```bash
-cd ~/navicat-php
+cd ~/dbtoolbox-php
 
 # 1. Config
 cp config/config.example.php config/config.php
@@ -56,7 +56,7 @@ Pipeline documentado en **`deploy/README.md`**.
 ```bash
 cp deploy/ftp.env.example deploy/ftp.env   # contraseña FTP (gitignored)
 npm run deploy              # release completa (build + PHP + frontend)
-npm run deploy:frontend     # solo UI (cambios en navicat-ui)
+npm run deploy:frontend     # solo UI (cambios en dbtoolbox-ui)
 npm run deploy:backend      # solo PHP
 npm run deploy:verify         # comprobar https://db.ldjr.me
 ```
@@ -99,7 +99,7 @@ php scripts/seed-admin.php
 ## Deploy Nginx (ejemplo)
 
 ```nginx
-root /var/www/navicat-php/public;
+root /var/www/dbtoolbox-php/public;
 index index.php index.html;
 
 location /api/ {
@@ -119,7 +119,7 @@ location ~ \.php$ {
 
 ## Differences vs DB Tool Box Web (Node)
 
-| Feature | Node (`navicat-web`) | PHP (`navicat-php`) |
+| Feature | Node (`dbtoolbox-web`) | PHP (`dbtoolbox-php`) |
 |---------|----------------------|---------------------|
 | Metadata DB | Postgres (Docker) | SQLite |
 | Servidor | Fastify + PM2 | Apache/Nginx + PHP-FPM |
@@ -130,11 +130,11 @@ location ~ \.php$ {
 ## Estructura
 
 ```
-navicat-php/
+dbtoolbox-php/
   public/           ← document root (index.php + SPA build)
   config/           ← config.php (no commitear secretos)
   src/              ← backend PHP
-  frontend/         ← shell Vite (UI en ../navicat-ui)
+  frontend/         ← shell Vite (UI en ../dbtoolbox-ui)
   storage/          ← SQLite + backups + schema cache
   scripts/          ← seed-admin, importadores
   migrations/       ← schema SQLite
@@ -147,12 +147,12 @@ Tras `php scripts/seed-admin.php`, usa el email/password mostrados en consola (p
 ## Desarrollo local (con PHP)
 
 ```bash
-cd ~/navicat-php
+cd ~/dbtoolbox-php
 npm run dev:backend    # PHP en :8081
-npm run dev:frontend   # Vite shell en :5184 → UI en ../navicat-ui
+npm run dev:frontend   # Vite shell en :5184 → UI en ../dbtoolbox-ui
 ```
 
-> **UI compartida:** el frontend React está en `../navicat-ui/` (mismo código que navicat-web). Solo el shell Vite y `.env` son específicos de PHP.
+> **UI compartida:** el frontend React está en `../dbtoolbox-ui/` (mismo código que dbtoolbox-web). Solo el shell Vite y `.env` son específicos de PHP.
 
 ## Notas de seguridad
 

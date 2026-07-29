@@ -5,7 +5,7 @@ Sube **DB Tool Box PHP** al FTP de GoDaddy/hosting vía `curl`.
 ## Setup (una vez)
 
 ```bash
-cd navicat-php
+cd dbtoolbox-php
 cp deploy/ftp.env.example deploy/ftp.env
 # Edita deploy/ftp.env con tu contraseña FTP
 npm run setup:frontend   # si aún no tienes node_modules
@@ -16,7 +16,7 @@ npm run setup:frontend   # si aún no tienes node_modules
 | Comando | Qué sube | Cuándo usarlo |
 |---------|----------|---------------|
 | `npm run deploy` | Build + frontend + backend PHP + routers | Release completa |
-| `npm run deploy:frontend` | Solo `public/index.html` + `public/assets/` | Cambios en UI (`navicat-ui`) |
+| `npm run deploy:frontend` | Solo `public/index.html` + `public/assets/` | Cambios en UI (`dbtoolbox-ui`) |
 | `npm run deploy:backend` | Solo `src/`, `migrations/`, `scripts/*.php`, `public/index.php`, `.htaccess` | Cambios solo en PHP |
 | `npm run deploy:verify` | No sube nada; prueba `https://db.ldjr.me` | Tras un deploy |
 

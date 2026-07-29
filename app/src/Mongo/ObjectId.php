@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Navicat\Mongo;
+namespace DbToolBox\Mongo;
 
 /** 12-byte MongoDB ObjectId, represented as a 24-char hex string. */
 final class ObjectId implements \JsonSerializable

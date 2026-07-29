@@ -1,9 +1,9 @@
 <?php
 declare(strict_types=1);
 
-namespace Navicat\Services;
+namespace DbToolBox\Services;
 
-use Navicat\App;
+use DbToolBox\App;
 
 /** OpenVPN on-demand for connections flagged use_vpn (same model as db-scripts.sh). */
 final class VpnService
@@ -101,8 +101,8 @@ final class VpnService
     {
         $cfg = self::cfg('vpn_config', '/etc/openvpn/client/pci.ovpn');
         $auth = self::cfg('vpn_auth', '/etc/openvpn/client/pci.auth');
-        $pidf = self::cfg('vpn_pidfile', '/var/run/openvpn-navicat.pid');
-        $logf = self::cfg('vpn_log', '/var/log/openvpn-navicat.log');
+        $pidf = self::cfg('vpn_pidfile', '/var/run/openvpn-dbtoolbox.pid');
+        $logf = self::cfg('vpn_log', '/var/log/openvpn-dbtoolbox.log');
         $bin = self::openvpnBin();
 
         if (!self::sudoReadable($cfg)) {
@@ -125,7 +125,7 @@ final class VpnService
         }
 
         $cmd = sprintf(
-            'sudo %s --config %s --auth-user-pass %s --daemon openvpn-navicat --writepid %s --log-append %s',
+            'sudo %s --config %s --auth-user-pass %s --daemon openvpn-dbtoolbox --writepid %s --log-append %s',
             escapeshellarg($bin),
             escapeshellarg($cfg),
             escapeshellarg($auth),
@@ -151,7 +151,7 @@ final class VpnService
         if (!self::$weStarted) {
             return;
         }
-        $pidf = self::cfg('vpn_pidfile', '/var/run/openvpn-navicat.pid');
+        $pidf = self::cfg('vpn_pidfile', '/var/run/openvpn-dbtoolbox.pid');
         if (self::sudoFileExists($pidf)) {
             $pid = trim((string)self::sudoCat($pidf));
             if ($pid !== '') {

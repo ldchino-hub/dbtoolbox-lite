@@ -4,7 +4,7 @@ export default {
   content: [
     './index.html',
     './src/**/*.{js,ts,jsx,tsx}',
-    '../../navicat-ui/src/**/*.{js,ts,jsx,tsx}',
+    '../../dbtoolbox-ui/src/**/*.{js,ts,jsx,tsx}',
   ],
   theme: {
     extend: {

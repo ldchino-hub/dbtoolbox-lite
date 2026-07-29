@@ -6,7 +6,7 @@ if (is_file($autoload)) {
     require_once $autoload;
 } else {
     spl_autoload_register(static function (string $class): void {
-        if (!str_starts_with($class, 'Navicat\\')) return;
+        if (!str_starts_with($class, 'DbToolBox\\')) return;
         $file = dirname(__DIR__) . '/src/' . str_replace('\\', '/', substr($class, 8)) . '.php';
         if (is_file($file)) require_once $file;
     });
@@ -19,7 +19,7 @@ if (!is_file($configPath)) {
 /** @var array<string,mixed> $config */
 $config = require $configPath;
 
-Navicat\App::init($config);
+\DbToolBox\App::init($config);
 
 $requestUri = (string)(parse_url($_SERVER['REQUEST_URI'] ?? '/', PHP_URL_PATH) ?: '/');
 if (str_contains($requestUri, '/api/')) {
@@ -27,8 +27,8 @@ if (str_contains($requestUri, '/api/')) {
     error_reporting(E_ALL & ~E_DEPRECATED & ~E_USER_DEPRECATED);
 }
 
-if (!function_exists('navicat_request_path')) {
-    function navicat_request_path(): string
+if (!function_exists('dbtoolbox_request_path')) {
+    function dbtoolbox_request_path(): string
     {
         $uri = parse_url($_SERVER['REQUEST_URI'] ?? '/', PHP_URL_PATH) ?: '/';
 
@@ -50,8 +50,8 @@ if (!function_exists('navicat_request_path')) {
     }
 }
 
-if (!function_exists('navicat_authorization_header')) {
-    function navicat_authorization_header(): string
+if (!function_exists('dbtoolbox_authorization_header')) {
+    function dbtoolbox_authorization_header(): string
     {
         if (!empty($_SERVER['HTTP_AUTHORIZATION'])) {
             return (string)$_SERVER['HTTP_AUTHORIZATION'];

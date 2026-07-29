@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Navicat\Support;
+namespace DbToolBox\Support;
 
 final class DbJobId
 {

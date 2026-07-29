@@ -14,7 +14,7 @@
 ## Setup rápido
 
 ```bash
-cd /Applications/MAMP/htdocs/filegator/repository/navicat-php
+cd /Applications/MAMP/htdocs/filegator/repository/dbtoolbox-php
 bash deploy/jenkins/setup-local.sh
 ```
 

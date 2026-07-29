@@ -2,11 +2,11 @@
 declare(strict_types=1);
 
 /**
- * Seed/update twin connections shared with navicat-web (see scripts/twin-connections.json).
+ * Seed/update twin connections shared with dbtoolbox-web (see scripts/twin-connections.json).
  */
 require_once dirname(__DIR__) . '/src/bootstrap.php';
 
-use Navicat\Connections\ConnectionRepository;
+use DbToolBox\Connections\ConnectionRepository;
 
 $path = dirname(__DIR__, 2) . '/scripts/twin-connections.json';
 if (!is_file($path)) {

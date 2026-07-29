@@ -20,7 +20,7 @@ Ver `deploy/README.md`. No se sobrescribe `config/config.php` por defecto.
 ## Docker / NAS
 
 ```bash
-cd /ruta/navicat-php-1.0.0
+cd /ruta/dbtoolbox-php-1.0.0
 git checkout v1.2.2
 # reiniciar contenedor o stack según tu infra
 curl -s http://HOST:8788/api/health
@@ -33,4 +33,4 @@ curl -s http://HOST:8788/api/health
 
 ## Guía completa (Web + NAS + checklist)
 
-En el repo Web: **`navicat-web-1.0.0/UPDATE-v1.2.2.md`** (mismo tag `v1.2.2`).
+En el repo Web: **`dbtoolbox-web-1.0.0/UPDATE-v1.2.2.md`** (mismo tag `v1.2.2`).

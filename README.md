@@ -18,7 +18,7 @@ curl -s http://127.0.0.1:8789/api/health
 
 ## Shared hosting
 
-Descarga el zip de **[Releases](https://github.com/ldchino-hub/navicat-lite/releases)** y sigue **[app/INSTALL-LITE.md](app/INSTALL-LITE.md)**.
+Descarga el zip de **[Releases](https://github.com/ldchino-hub/dbtoolbox-lite/releases)** y sigue **[app/INSTALL-LITE.md](app/INSTALL-LITE.md)**.
 
 Resumen: sube el contenido de `app/` por FTP, apunta el dominio a `public/`, copia `config/config.example.php` → `config/config.php`, deja `storage/` escribible y crea el admin.
 

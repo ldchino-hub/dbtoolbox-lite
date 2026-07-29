@@ -1,9 +1,9 @@
 <?php
 declare(strict_types=1);
 
-namespace Navicat;
+namespace DbToolBox;
 
-use Navicat\Support\PdoMysqlOptions;
+use DbToolBox\Support\PdoMysqlOptions;
 use PDO;
 
 final class Database

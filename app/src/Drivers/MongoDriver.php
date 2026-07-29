@@ -1,15 +1,15 @@
 <?php
 declare(strict_types=1);
 
-namespace Navicat\Drivers;
+namespace DbToolBox\Drivers;
 
-use Navicat\Mongo\Binary;
-use Navicat\Mongo\Bson;
-use Navicat\Mongo\Int64;
-use Navicat\Mongo\MongoClient;
-use Navicat\Mongo\ObjectId;
-use Navicat\Mongo\Regex;
-use Navicat\Mongo\UTCDateTime;
+use DbToolBox\Mongo\Binary;
+use DbToolBox\Mongo\Bson;
+use DbToolBox\Mongo\Int64;
+use DbToolBox\Mongo\MongoClient;
+use DbToolBox\Mongo\ObjectId;
+use DbToolBox\Mongo\Regex;
+use DbToolBox\Mongo\UTCDateTime;
 
 /**
  * MongoDB / Amazon DocumentDB driver implemented on top of the pure-PHP
@@ -53,7 +53,7 @@ final class MongoDriver
                 'caFile' => $this->resolveCaFile($meta['caFile'] ?? null),
                 'tlsAllowInvalid' => !empty($meta['tlsAllowInvalid']),
                 'authMechanism' => (string)($meta['authMechanism'] ?? 'auto'),
-                'appName' => 'navicat-php',
+                'appName' => 'dbtoolbox-php',
             ]);
             $this->client->connect();
         }
@@ -671,7 +671,7 @@ final class MongoDriver
     public function createDatabase(string $name, string $charset = 'utf8mb4'): void
     {
         // Mongo creates databases lazily; materialize with a placeholder collection.
-        $this->client()->runCommand($name, ['create' => '_navicat_init']);
+        $this->client()->runCommand($name, ['create' => '_dbtoolbox_init']);
     }
 
     public function dropDatabase(string $name): void

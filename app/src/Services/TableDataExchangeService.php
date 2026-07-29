@@ -1,15 +1,15 @@
 <?php
 declare(strict_types=1);
 
-namespace Navicat\Services;
+namespace DbToolBox\Services;
 
-use Navicat\Drivers\MySqlDriver;
-use Navicat\Drivers\PostgresDriver;
+use DbToolBox\Drivers\MySqlDriver;
+use DbToolBox\Drivers\PostgresDriver;
 use PDO;
 use ZipArchive;
 
 /**
- * Export/import table data in multiple formats (Navicat-style wizard).
+ * Export/import table data in multiple formats (DB Tool Box-style wizard).
  */
 final class TableDataExchangeService
 {

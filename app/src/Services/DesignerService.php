@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Navicat\Services;
+namespace DbToolBox\Services;
 
 final class DesignerService
 {

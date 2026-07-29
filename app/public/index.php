@@ -23,7 +23,7 @@ try {
     exit;
 }
 
-$uri = navicat_request_path();
+$uri = dbtoolbox_request_path();
 
 if (str_starts_with($uri, '/assets/')) {
     $publicDir = __DIR__;
@@ -53,7 +53,7 @@ if (str_starts_with($uri, '/assets/')) {
 }
 
 if (str_starts_with($uri, '/api/')) {
-    (new Navicat\Http\Router())->dispatch();
+    (new \DbToolBox\Http\Router())->dispatch();
     exit;
 }
 

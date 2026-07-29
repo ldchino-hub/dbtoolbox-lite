@@ -1,9 +1,9 @@
 <?php
 declare(strict_types=1);
 
-namespace Navicat\Drivers;
+namespace DbToolBox\Drivers;
 
-use Navicat\Support\PdoMysqlOptions;
+use DbToolBox\Support\PdoMysqlOptions;
 use PDO;
 use PDOStatement;
 
@@ -1009,7 +1009,7 @@ final class MySqlDriver
                     ? (string)($r['EXECUTE_AT'] ?? '')
                     : ($interval !== '' ? "EVERY {$interval}" : (string)($r['STARTS'] ?? ''));
                 $out[] = [
-                    'jobId' => \Navicat\Support\DbJobId::encodeMysql($db, $name),
+                    'jobId' => \DbToolBox\Support\DbJobId::encodeMysql($db, $name),
                     'name' => $name,
                     'database' => $db,
                     'engine' => 'mysql',

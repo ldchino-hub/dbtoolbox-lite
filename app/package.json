@@ -3,7 +3,7 @@
   "private": true,
   "version": "1.0.0",
   "scripts": {
-    "setup:ui": "npm --prefix ../navicat-ui install",
+    "setup:ui": "npm --prefix ../dbtoolbox-ui install",
     "setup:frontend": "npm run setup:ui && npm --prefix frontend install",
     "dev": "npm run dev:backend & npm run dev:frontend",
     "dev:backend": "php -S 127.0.0.1:8081 -t public public/index.php",

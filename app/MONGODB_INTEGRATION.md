@@ -1,7 +1,7 @@
 # MongoDB / Amazon DocumentDB — Integración en DB Tool Box PHP
 
 > **Versión:** 1.2.2 (integrado en `main`)  
-> **Base previa:** 1.2.1 (backup `navicat-php-1.0.0-backup-pre-mongodb-20260601-194050`)  
+> **Base previa:** 1.2.1 (backup `dbtoolbox-php-1.0.0-backup-pre-mongodb-20260601-194050`)  
 > **Fecha:** 2026-06-01  
 > **Entorno validado:** PHP 8.2 · Amazon DocumentDB 5.0 (wire protocol MongoDB) · Linux x86_64
 
@@ -104,7 +104,7 @@ revokePrivileges(user, db, privs) → revokeRolesFromUser
 dropEngineUser(user)         → dropUser
 executeDDL(ddl, db)          → decodifica JSON de comando o pasa a execute(); ignora comentarios //
 getForeignKeys(db)           → [] (no aplica)
-createDatabase(name)         → crea colección _navicat_init para materializar la db
+createDatabase(name)         → crea colección _dbtoolbox_init para materializar la db
 dropDatabase(name)           → dropDatabase
 truncateTable(db, coll)      → delete {} limit 0
 dropTable(db, coll)          → drop (ignora error 26 si no existe)
@@ -208,7 +208,7 @@ Cuando el PUT de conexión incluye alguna de las claves Mongo, se hace `array_me
 
 **1. `use` statement:**
 ```php
-use Navicat\Drivers\MongoDriver;
+use DbToolBox\Drivers\MongoDriver;
 ```
 
 **2. `driverFromInput()` — "Test Connection" de conexiones nuevas:**
@@ -298,7 +298,7 @@ if ($srcIsMongo && $dstIsMongo) {
 
 ---
 
-### `navicat-ui/src/features/bundle.jsx`
+### `dbtoolbox-ui/src/features/bundle.jsx`
 
 **Cambios:** ~68 líneas (el bundle es fuente recuperada/deobfuscada — se edita directamente).
 
@@ -397,10 +397,10 @@ db.collection.find({"campo": {"$gt": 0}}, {"campo1": 1}).sort({"campo": 1}).limi
 
 ## Rebuild del frontend
 
-Después de cualquier cambio en `navicat-ui/src/features/bundle.jsx`:
+Después de cualquier cambio en `dbtoolbox-ui/src/features/bundle.jsx`:
 
 ```bash
-cd navicat-php-1.0.0
+cd dbtoolbox-php-1.0.0
 npm run build:frontend
 # → escribe a public/assets/index-<hash>.js y actualiza public/index.html
 ```
@@ -467,12 +467,12 @@ Aplica los diffs con `patch`:
 # Genera los patches desde la instalación original:
 cd /home/luisjimenez
 for f in \
-  navicat-php-1.0.0/src/Drivers/DriverFactory.php \
-  navicat-php-1.0.0/src/Connections/ConnectionRepository.php \
-  navicat-php-1.0.0/src/Http/Router.php \
-  navicat-php-1.0.0/src/Services/BackupService.php \
-  navicat-php-1.0.0/src/Services/TransferService.php; do
-    diff -u "navicat-php-1.0.0-backup-pre-mongodb-20260601-194050/${f#navicat-php-1.0.0/}" "$f"
+  dbtoolbox-php-1.0.0/src/Drivers/DriverFactory.php \
+  dbtoolbox-php-1.0.0/src/Connections/ConnectionRepository.php \
+  dbtoolbox-php-1.0.0/src/Http/Router.php \
+  dbtoolbox-php-1.0.0/src/Services/BackupService.php \
+  dbtoolbox-php-1.0.0/src/Services/TransferService.php; do
+    diff -u "dbtoolbox-php-1.0.0-backup-pre-mongodb-20260601-194050/${f#dbtoolbox-php-1.0.0/}" "$f"
 done > mongodb_backend.patch
 
 # En la copia nueva:
@@ -484,11 +484,11 @@ patch -p0 < mongodb_backend.patch
 
 ```bash
 # Copiar el bundle ya modificado:
-cp /home/luisjimenez/navicat-ui/src/features/bundle.jsx \
-   /ruta/nueva/navicat-ui/src/features/bundle.jsx
+cp /home/luisjimenez/dbtoolbox-ui/src/features/bundle.jsx \
+   /ruta/nueva/dbtoolbox-ui/src/features/bundle.jsx
 
 # Rebuild:
-cd /ruta/nueva/navicat-php-1.0.0
+cd /ruta/nueva/dbtoolbox-php-1.0.0
 npm run build:frontend
 ```
 
@@ -508,14 +508,14 @@ openssl verify ~/global-bundle.pem
 ```bash
 # Crear / verificar ~/.mongo_config.json con los hosts reales
 # Luego:
-cd /ruta/nueva/navicat-php-1.0.0
+cd /ruta/nueva/dbtoolbox-php-1.0.0
 php scripts/import-mongo-config.php
 ```
 
 ### Paso 6 — Reiniciar el servidor
 
 ```bash
-pm2 restart navicat-php
+pm2 restart dbtoolbox-php
 # o para PHP built-in server:
 php -S 0.0.0.0:8080 -t public public/index.php
 ```
@@ -525,10 +525,10 @@ php -S 0.0.0.0:8080 -t public public/index.php
 ```bash
 php -r '
 require "src/bootstrap.php";
-$row = Navicat\App::db()->query("SELECT * FROM connections WHERE engine=\"mongodb\" LIMIT 1")
+$row = \DbToolBox\App::db()->query("SELECT * FROM connections WHERE engine=\"mongodb\" LIMIT 1")
         ->fetch(PDO::FETCH_ASSOC);
 if (!$row) { die("No hay conexiones mongodb\n"); }
-$drv = Navicat\Drivers\DriverFactory::getDriver($row);
+$drv = \DbToolBox\Drivers\DriverFactory::getDriver($row);
 var_dump($drv->testConnection());
 print_r($drv->listDatabases());
 '

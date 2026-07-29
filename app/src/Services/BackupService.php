@@ -1,14 +1,14 @@
 <?php
 declare(strict_types=1);
 
-namespace Navicat\Services;
+namespace DbToolBox\Services;
 
-use Navicat\Connections\ConnectionRepository;
-use Navicat\Drivers\DriverFactory;
-use Navicat\Support\PdoMysqlOptions;
-use Navicat\Drivers\MongoDriver;
-use Navicat\Drivers\MySqlDriver;
-use Navicat\Drivers\PostgresDriver;
+use DbToolBox\Connections\ConnectionRepository;
+use DbToolBox\Drivers\DriverFactory;
+use DbToolBox\Support\PdoMysqlOptions;
+use DbToolBox\Drivers\MongoDriver;
+use DbToolBox\Drivers\MySqlDriver;
+use DbToolBox\Drivers\PostgresDriver;
 use PDO;
 
 /** Native backup/restore via PDO — no mysqldump, pg_dump, mysql, or psql. */

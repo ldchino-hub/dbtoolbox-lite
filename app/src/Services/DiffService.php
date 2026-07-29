@@ -1,9 +1,9 @@
 <?php
 declare(strict_types=1);
 
-namespace Navicat\Services;
+namespace DbToolBox\Services;
 
-use Navicat\Drivers\DriverFactory;
+use DbToolBox\Drivers\DriverFactory;
 
 final class DiffService
 {

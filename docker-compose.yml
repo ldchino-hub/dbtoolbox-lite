@@ -4,7 +4,7 @@ services:
       context: .
       dockerfile: Dockerfile
     image: dbtoolbox-lite:1.0.1
-    container_name: Navicat-Lite
+    container_name: DBToolBox-Lite
     restart: unless-stopped
     env_file:
       - .env
@@ -19,13 +19,13 @@ services:
       retries: 3
       start_period: 45s
     networks:
-      - navicat-net
+      - dbtoolbox-net
 
 volumes:
   dbtoolbox-lite-storage:
     name: dbtoolbox-lite-storage
 
 networks:
-  navicat-net:
+  dbtoolbox-net:
     external: true
-    name: navicat-net
+    name: dbtoolbox-net

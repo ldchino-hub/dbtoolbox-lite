@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Navicat\Mongo;
+namespace DbToolBox\Mongo;
 
 /** BSON UTC datetime: milliseconds since the Unix epoch. */
 final class UTCDateTime implements \JsonSerializable

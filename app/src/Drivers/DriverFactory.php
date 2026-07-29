@@ -1,10 +1,10 @@
 <?php
 declare(strict_types=1);
 
-namespace Navicat\Drivers;
+namespace DbToolBox\Drivers;
 
-use Navicat\Connections\ConnectionRepository;
-use Navicat\Services\VpnService;
+use DbToolBox\Connections\ConnectionRepository;
+use DbToolBox\Services\VpnService;
 
 final class DriverFactory
 {

@@ -1,5 +1,5 @@
 /**
- * Apply Windows hot-fix: "Close Connection" in connection tree (shared navicat-ui bundle).
+ * Apply Windows hot-fix: "Close Connection" in connection tree (shared dbtoolbox-ui bundle).
  * Run after frontend build: node scripts/patch-close-connection.js
  */
 const fs = require('fs');
