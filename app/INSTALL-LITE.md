@@ -65,7 +65,15 @@ Edita `config/config.php`:
 | `meta_enc_key` | 64 caracteres hex (32 bytes). Genera en tu PC: `openssl rand -hex 32` |
 | `jwt_secret` | Mínimo 16 caracteres. Ej.: `openssl rand -hex 16` |
 | `admin_email` | Tu email de administrador |
-| `admin_password` | Contraseña inicial del admin |
+| `admin_password` | Contraseña inicial del admin (solo para `seed-admin.php`, no se lee en cada login) |
+
+**Importante:** después de editar `config.php`, debes **crear** el usuario admin una vez:
+
+```bash
+php scripts/seed-admin.php
+```
+
+Eso guarda el hash en `storage/database.sqlite`. Si cambias `admin_password` después, vuelve a ejecutar `seed-admin.php` (si no existe el usuario) o usa `recover-admin.php`.
 
 **Nota:** `database_path` es la base **interna** de la app (usuarios, conexiones guardadas). Usa SQLite en `storage/` y no requiere configurar MySQL. El bloque `database` comentado en el ejemplo solo aplica si quieres metadatos en MySQL. Tus servidores MySQL/PostgreSQL se agregan después desde la interfaz web.
 

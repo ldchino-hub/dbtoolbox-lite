@@ -39,7 +39,10 @@ return [
     'my_cnf_path' => getenv('HOME') . '/.my.cnf',
     'pg_service_path' => getenv('HOME') . '/.pg_service.conf',
 
-    // Usuario administrador inicial (seed-admin.php o recover-admin.php)
+    // Usuario administrador inicial.
+    // La contraseña NO se lee en cada login: se usa UNA VEZ al crear el admin
+    // con `php scripts/seed-admin.php` (o recover-admin.php). Después el login
+    // valida contra la tabla users en storage/database.sqlite.
     'admin_email' => 'admin@example.com',
     'admin_password' => 'change_me_on_first_login',
 

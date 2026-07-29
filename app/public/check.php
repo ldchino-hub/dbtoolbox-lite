@@ -63,6 +63,17 @@ $assetsDir = $public . '/assets';
 $indexHtml = $public . '/index.html';
 $assetFiles = is_dir($assetsDir) ? glob($assetsDir . '/*.{js,css}', GLOB_BRACE) : [];
 
+$adminCount = 0;
+$adminEmail = '';
+if ($bootstrapOk) {
+    try {
+        $adminCount = (int)\DbToolBox\App::db()->query('SELECT COUNT(*) FROM users')->fetchColumn();
+        $adminEmail = (string)(\DbToolBox\App::config()['admin_email'] ?? '');
+    } catch (Throwable) {
+        $adminCount = -1;
+    }
+}
+
 $docRoot = $_SERVER['DOCUMENT_ROOT'] ?? '';
 $scriptName = $_SERVER['SCRIPT_NAME'] ?? '';
 $requestUri = $_SERVER['REQUEST_URI'] ?? '';
@@ -104,6 +115,15 @@ $requestUri = $_SERVER['REQUEST_URI'] ?? '';
     <?= row('public/index.html (frontend build)', is_file($indexHtml)) ?>
     <?= row('public/assets/ (JS/CSS)', is_dir($assetsDir) && count($assetFiles) > 0, count($assetFiles) . ' archivos') ?>
     <?= row('Bootstrap + SQLite', $bootstrapOk, $bootstrapError) ?>
+    <?= row(
+        'Usuario admin en SQLite',
+        $adminCount > 0,
+        $adminCount > 0
+            ? "{$adminCount} usuario(s) — inicia sesión con el email/contraseña creados por seed-admin"
+            : ($adminCount === 0
+                ? 'Falta — ejecuta: php scripts/seed-admin.php (usa admin_email/admin_password de config.php una vez)'
+                : 'No se pudo consultar users')
+    ) ?>
   </table>
 
   <div class="box">
