@@ -14,11 +14,17 @@ app/frontend/tsconfig.tsbuildinfo
 composer.lock
 
 # runtime / storage
-app/storage/
+app/storage/*
+!app/storage/.gitkeep
+!app/storage/backups/
+app/storage/backups/*
+!app/storage/backups/.gitkeep
 **/storage/*.sqlite
 **/storage/*.sqlite-*
-**/storage/backups/
 **/storage/cache/
+
+# release artifacts
+app/dist/
 
 # IDE / OS
 .DS_Store
