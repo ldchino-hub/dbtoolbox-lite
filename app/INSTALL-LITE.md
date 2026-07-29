@@ -15,7 +15,9 @@ Guía de una página para instalar **DB Tool Box Lite** en hosting compartido (G
 En GitHub → **Releases** → descarga `dbtoolbox-lite-X.Y.Z.zip`.
 
 O desde la rama `main`: [dbtoolbox-lite/archive/refs/heads/main.zip](https://github.com/ldchino-hub/dbtoolbox-lite/archive/refs/heads/main.zip)  
-(en ese caso usa la carpeta `dbtoolbox-lite-main/app/`).
+(en ese caso el código está en **`dbtoolbox-lite-main/app/`** — no en la raíz del zip).
+
+**Preferido:** usa el zip del **Release** (sin carpeta `app/` extra): solo descomprime y sube el contenido.
 
 ## 2. Subir por FTP
 
