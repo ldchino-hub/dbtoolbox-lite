@@ -1,6 +1,6 @@
 # DB Tool Box Lite
 
-Shared-hosting-friendly PHP edition of DB Tool Box (v1.0.0).
+Shared-hosting-friendly PHP edition of DB Tool Box (v1.0.3).
 
 - **Edition:** `lite` — no Scheduler, Collectors, DPA, Query Store, AI Analysis, DBA Ops, OS Shell, or in-app System Update
 - **Runtime:** PHP 8.3 + Apache (Docker) or plain PHP on shared hosting
