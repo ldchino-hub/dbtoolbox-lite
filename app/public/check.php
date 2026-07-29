@@ -150,10 +150,16 @@ $requestUri = $_SERVER['REQUEST_URI'] ?? '';
   </div>
 
   <div class="box">
+    <b>Primera instalación</b><br>
+    Abre <a href="install.php">install.php</a> — crea config, admin y se desactiva solo.<br>
+    Alternativa SSH: <code>php scripts/seed-admin.php</code>
+  </div>
+
+  <div class="box">
     <b>Después del deploy</b><br>
     1. <code>chmod 775 storage storage/backups</code><br>
-    2. <code>php scripts/seed-admin.php</code> (por SSH, una vez)<br>
-    3. Borra <code>check.php</code> en producción
+    2. <code>install.php</code> en el navegador (o <code>seed-admin.php</code> por SSH)<br>
+    3. Borra <code>check.php</code> y <code>install.php</code> en producción si aún existen
   </div>
 
   <p style="font-size:12px;color:#666">SCRIPT_NAME: <?= htmlspecialchars($scriptName) ?> · REQUEST_URI: <?= htmlspecialchars($requestUri) ?></p>

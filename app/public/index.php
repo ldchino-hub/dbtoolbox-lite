@@ -1,6 +1,18 @@
 <?php
 declare(strict_types=1);
 
+$appRoot = dirname(__DIR__);
+$installLock = $appRoot . '/storage/.installed';
+$configFile = $appRoot . '/config/config.php';
+$requestPath = parse_url($_SERVER['REQUEST_URI'] ?? '/', PHP_URL_PATH) ?: '/';
+$scriptDir = str_replace('\\', '/', dirname($_SERVER['SCRIPT_NAME'] ?? ''));
+$onInstaller = str_ends_with($requestPath, '/install.php') || str_ends_with($requestPath, 'install.php');
+
+if (!$onInstaller && !is_file($installLock) && !is_file($configFile) && is_file(__DIR__ . '/install.php')) {
+    header('Location: ' . rtrim($scriptDir, '/') . '/install.php');
+    exit;
+}
+
 try {
     require_once dirname(__DIR__) . '/src/bootstrap.php';
 } catch (Throwable $e) {
@@ -17,7 +29,7 @@ try {
     if ($debug) {
         echo '<pre style="background:#fee;padding:1rem;border-radius:6px">' . htmlspecialchars($e->getMessage(), ENT_QUOTES, 'UTF-8') . '</pre>';
     } else {
-        echo '<p>Error interno. Abre <code>/check.php</code> para diagnosticar, o activa <code>debug =&gt; true</code> en config.php temporalmente.</p>';
+        echo '<p>Error interno. Abre <code>/install.php</code> para configurar, o <code>/check.php</code> para diagnosticar.</p>';
     }
     echo '</body></html>';
     exit;

@@ -50,32 +50,39 @@ No expongas `config/`, `src/` ni `storage/` como document root.
 
 Si **no puedes** cambiar el document root, deja el docroot en la raíz del proyecto: los archivos `.htaccess` e `index.php` de la raíz redirigen todo a `public/`.
 
-## 4. Configuración
+## 4. Configuración (recomendado: instalador web)
 
-Por FTP, copia:
+Abre en el navegador:
 
 ```
-config/config.example.php  →  config/config.php
+https://tu-dominio.com/install.php
 ```
 
-Edita `config/config.php`:
+El asistente:
 
-| Clave | Valor |
-|-------|-------|
-| `meta_enc_key` | 64 caracteres hex (32 bytes). Genera en tu PC: `openssl rand -hex 32` |
-| `jwt_secret` | Mínimo 16 caracteres. Ej.: `openssl rand -hex 16` |
-| `admin_email` | Tu email de administrador |
-| `admin_password` | Contraseña inicial del admin (solo para `seed-admin.php`, no se lee en cada login) |
+1. Verifica PHP y permisos en `storage/`
+2. Genera claves de cifrado y JWT
+3. Crea `config/config.php` y el usuario administrador
+4. Se **desactiva solo** (archivo `storage/.installed` + borra `install.php` si puede)
 
-**Importante:** después de editar `config.php`, debes **crear** el usuario admin una vez:
+Luego inicia sesión en la página principal.
+
+### Alternativa manual (SSH)
+
+Por FTP, copia `config/config.example.php` → `config/config.php`, edita secretos y ejecuta:
 
 ```bash
 php scripts/seed-admin.php
 ```
 
-Eso guarda el hash en `storage/database.sqlite`. Si cambias `admin_password` después, vuelve a ejecutar `seed-admin.php` (si no existe el usuario) o usa `recover-admin.php`.
+| Clave | Valor |
+|-------|-------|
+| `meta_enc_key` | 64 caracteres hex (32 bytes). Genera: `openssl rand -hex 32` |
+| `jwt_secret` | Mínimo 16 caracteres. Ej.: `openssl rand -hex 16` |
+| `admin_email` | Tu email de administrador |
+| `admin_password` | Solo se usa al ejecutar `seed-admin.php` |
 
-**Nota:** `database_path` es la base **interna** de la app (usuarios, conexiones guardadas). Usa SQLite en `storage/` y no requiere configurar MySQL. El bloque `database` comentado en el ejemplo solo aplica si quieres metadatos en MySQL. Tus servidores MySQL/PostgreSQL se agregan después desde la interfaz web.
+**Nota:** `database_path` es la base **interna** de la app (usuarios, conexiones guardadas). Usa SQLite en `storage/` y no requiere configurar MySQL. Tus servidores MySQL/PostgreSQL se agregan después desde la interfaz web.
 
 ### MAMP (subcarpeta en htdocs)
 

@@ -6,9 +6,14 @@ if (is_file($autoload)) {
     require_once $autoload;
 } else {
     spl_autoload_register(static function (string $class): void {
-        if (!str_starts_with($class, 'DbToolBox\\')) return;
-        $file = dirname(__DIR__) . '/src/' . str_replace('\\', '/', substr($class, 8)) . '.php';
-        if (is_file($file)) require_once $file;
+        $prefix = 'DbToolBox\\';
+        if (!str_starts_with($class, $prefix)) {
+            return;
+        }
+        $file = dirname(__DIR__) . '/src/' . str_replace('\\', '/', substr($class, strlen($prefix))) . '.php';
+        if (is_file($file)) {
+            require_once $file;
+        }
     });
 }
 
