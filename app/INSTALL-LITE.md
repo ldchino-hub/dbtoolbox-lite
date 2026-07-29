@@ -67,6 +67,8 @@ Edita `config/config.php`:
 | `admin_email` | Tu email de administrador |
 | `admin_password` | Contraseña inicial del admin |
 
+**Nota:** `database_path` es la base **interna** de la app (usuarios, conexiones guardadas). Usa SQLite en `storage/` y no requiere configurar MySQL. El bloque `database` comentado en el ejemplo solo aplica si quieres metadatos en MySQL. Tus servidores MySQL/PostgreSQL se agregan después desde la interfaz web.
+
 ## 5. Permisos
 
 Crea (si no existen) y deja escribibles:
