@@ -69,6 +69,20 @@ Edita `config/config.php`:
 
 **Nota:** `database_path` es la base **interna** de la app (usuarios, conexiones guardadas). Usa SQLite en `storage/` y no requiere configurar MySQL. El bloque `database` comentado en el ejemplo solo aplica si quieres metadatos en MySQL. Tus servidores MySQL/PostgreSQL se agregan después desde la interfaz web.
 
+### MAMP (subcarpeta en htdocs)
+
+Si instalas en `htdocs/dbtoolbox-lite-1.0.2/` y ves **404** al abrir `/public/`:
+
+```bash
+cd htdocs/dbtoolbox-lite-1.0.2
+# Edita YOUR_FOLDER en los archivos antes de copiar, o sustituye con sed:
+sed 's/YOUR_FOLDER/dbtoolbox-lite-1.0.2/g' public/.htaccess.mamp > public/.htaccess
+sed 's/YOUR_FOLDER/dbtoolbox-lite-1.0.2/g' deploy/root.htaccess.mamp > .htaccess
+```
+
+Luego abre: `http://127.0.0.1/dbtoolbox-lite-1.0.2/public/`  
+Diagnóstico: `http://127.0.0.1/dbtoolbox-lite-1.0.2/public/check.php`
+
 ## 5. Permisos
 
 Crea (si no existen) y deja escribibles:

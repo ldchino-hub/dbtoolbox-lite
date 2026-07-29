@@ -1,6 +1,8 @@
 # Pass Authorization header to PHP (Apache/CGI/FastCGI)
 SetEnvIf Authorization "(.*)" HTTP_AUTHORIZATION=$1
 
+DirectoryIndex index.html index.php
+
 <IfModule mod_rewrite.c>
 RewriteEngine On
 RewriteBase /

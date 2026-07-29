@@ -1,0 +1,8 @@
+# MAMP / subcarpeta — copia sobre .htaccess en la raíz del proyecto:
+#   cp deploy/root.htaccess.mamp .htaccess
+# Reemplaza YOUR_FOLDER por el nombre de la carpeta en htdocs.
+RewriteEngine On
+RewriteBase /YOUR_FOLDER/
+
+RewriteCond %{REQUEST_URI} !^/YOUR_FOLDER/public/
+RewriteRule ^(.*)$ public/$1 [L]
